@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Index</title>
+</head>
+<body>
+<p>TEST TASK</p>
+<button id="btn-init">Init</button>
+<button id="btn-sync">Sync</button>
+<button id="btn-clear">Clear</button>
+</body>
+<script>
+    const initBtn = document.getElementById("btn-init");
+    const syncBtn = document.getElementById("btn-sync");
+    const clearBtn = document.getElementById("btn-clear");
+
+    initBtn.onclick = async () => {
+        const result = await fetch("/api/externalHrSources/upload", {
+            method: "post",
+        });
+        const parsedResult = await result.text();
+        console.log(parsedResult);
+    };
+
+    syncBtn.onclick = async () => {
+        const result = await fetch("/api/users/sync", { method: "post" });
+        const parsedResult = await result.text();
+        console.log(parsedResult);
+    };
+
+    clearBtn.onclick = async () => {
+        const result = await fetch("/api/users/clear", { method: "put" });
+        const parsedResult = await result.text();
+        console.log(parsedResult);
+    };
+
+    setInterval(async () => {
+        const result = await fetch("/api/users/clear", { method: "put" });
+        const parsedResult = await result.text();
+        console.log(parsedResult);
+    }, 30000)
+</script>
+</html>
